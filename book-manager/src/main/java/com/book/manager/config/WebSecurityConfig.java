@@ -15,8 +15,6 @@ import javax.sql.DataSource;
 
 /**
  * @Description web security 安全配置
- * @Date 2020/7/21 15:19
- * @Author by 尘心
  */
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{

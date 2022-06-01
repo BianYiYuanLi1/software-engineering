@@ -13,8 +13,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @Description swagger 配置
- * @Date 2020/7/14 18:36
- * @Author by 尘心
  */
 @Configuration
 @EnableSwagger2
@@ -31,7 +29,7 @@ public class SwaggerConfiguration {
     }
 
     private ApiInfo apiInfo() {
-        Contact contact = new Contact("尘心(Jason)","http://www.diqiyuzhou.tk","amazingjava@163.com");
+        Contact contact = new Contact("akalabue","ww","1584868178@qq.com");
         return new ApiInfoBuilder()
                 .title("【图书管理后台Swagger UI】")
                 .description("图书管理后台接口")

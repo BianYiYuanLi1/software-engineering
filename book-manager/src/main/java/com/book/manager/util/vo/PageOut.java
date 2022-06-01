@@ -5,8 +5,6 @@ import lombok.Data;
 
 /**
  * @Description 分页返回
- * @Date 2020/7/14 20:53
- * @Author by 尘心
  */
 @Data
 public class PageOut {

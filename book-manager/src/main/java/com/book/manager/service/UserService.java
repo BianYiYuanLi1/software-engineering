@@ -26,8 +26,6 @@ import java.util.Optional;
 
 /**
  * @Description 用户业务类
- * @Date 2020/7/14 16:31
- * @Author by 尘心
  */
 @Service
 public class UserService implements UserDetailsService{

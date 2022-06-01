@@ -26,8 +26,6 @@ import java.util.Map;
 
 /**
  * @Description 用户管理
- * @Date 2020/7/14 16:35
- * @Author by 尘心
  */
 @Api(tags = "用户管理")
 @RestController

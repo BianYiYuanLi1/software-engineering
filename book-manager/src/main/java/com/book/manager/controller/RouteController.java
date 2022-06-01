@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @Description 路由
- * @Date 2020/7/16 9:25
- * @Author by 尘心
  */
 @Api(tags = "路由")
 @Controller

@@ -9,8 +9,6 @@ import java.util.Map;
 
 /**
  * @Description 图书
- * @Date 2020/7/14 19:57
- * @Author by 尘心
  */
 @Mapper
 @Component

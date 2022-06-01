@@ -6,8 +6,6 @@ import lombok.Data;
 
 /**
  * @Description 用户vo类
- * @Date 2020/7/24 14:29
- * @Author by 尘心
  */
 @Data
 public class UserOut extends Users{

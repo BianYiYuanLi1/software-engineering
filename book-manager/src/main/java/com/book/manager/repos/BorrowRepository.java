@@ -9,8 +9,6 @@ import java.util.List;
 
 /**
  * @Description 借阅管理 jpa查询
- * @Date 2020/7/14 16:14
- * @Author by 尘心
  */
 @Repository
 public interface BorrowRepository extends JpaRepository<Borrow,Integer>{

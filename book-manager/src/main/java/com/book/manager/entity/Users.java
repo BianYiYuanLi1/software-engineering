@@ -12,8 +12,6 @@ import java.util.Date;
 
 /**
  * @Description 用户实体类
- * @Date 2020/7/14 15:39
- * @Author by 尘心
  */
 @Data
 @NoArgsConstructor

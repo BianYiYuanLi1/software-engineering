@@ -2,8 +2,6 @@ package com.book.manager.util.http;
 
 /**
  * @Description 响应状态码枚举类
- * @Date 2020/7/14 18:49
- * @Author by 尘心
  */
 public enum CodeEnum {
     /** 请求成功 */

@@ -2,8 +2,6 @@ package com.book.manager.util.consts;
 
 /**
  * @Description 数字类型 和 中文名称互转
- * @Date 2020/7/28 13:48
- * @Author by 尘心
  */
 public class ConvertUtil {
 

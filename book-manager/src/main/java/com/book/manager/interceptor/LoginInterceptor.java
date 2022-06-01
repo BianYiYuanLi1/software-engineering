@@ -10,8 +10,6 @@ import javax.servlet.http.HttpSession;
 
 /**
  * @Description 登录拦截器
- * @Date 2020/7/15 20:39
- * @Author by 尘心
  */
 @Slf4j
 @Component

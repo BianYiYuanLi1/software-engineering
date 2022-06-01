@@ -12,8 +12,6 @@ import java.util.HashMap;
  *
  *     注意, 负载, 分布式情况下不适用, 可使用redis实现会话信息共享
  * </p>
- * @Date 2020/7/21 11:52
- * @Author by 尘心
  */
 public class UserCache{
 

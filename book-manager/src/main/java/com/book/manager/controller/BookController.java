@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @Description 用户管理
- * @Date 2020/7/14 16:35
- * @Author by 尘心
  */
 @Api(tags = "图书管理")
 @RestController

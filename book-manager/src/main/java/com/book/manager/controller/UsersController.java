@@ -149,4 +149,11 @@ public class UsersController {
         }
         return R.fail(CodeEnum.USER_NOT_FOUND);
     }
+
+    @PostMapping("/addBatch")
+    public R addBatch(){
+        List<Users> list = new ArrayList<>();
+        userService.addBatchUser(list);
+        return new R();
+    }
 }

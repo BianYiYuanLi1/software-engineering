@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
@@ -19,12 +20,17 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
+//    @Autowired
+//    VerificationCodeFilter verificationCodeFilter;
+
 
     @Autowired
     private UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //将验证码过滤器添加到用户名密码过滤器前面
+//            http.addFilterBefore(verificationCodeFilter, UsernamePasswordAuthenticationFilter.class);
         //授权
         http.formLogin()
                 //自定义登陆页面
@@ -36,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 //请求授权
                 .authorizeRequests()
                 //在访问我们的URL时，我们是不需要省份认证，可以立即访问
-                .antMatchers("/javaex/**","/","/favicon.ico","/login","/user/login").permitAll()
+                .antMatchers("/javaex/**","/","/favicon.ico","/login","/user/login","/regist.html",
+                        "/user/addReader","/mail/verificationCode","/mail/verficate").permitAll()
                 //所有请求都被拦截，都需认证
                 .anyRequest().authenticated()
                 .and()

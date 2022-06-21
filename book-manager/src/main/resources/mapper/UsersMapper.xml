@@ -15,6 +15,14 @@
         <result column="size" property="size" jdbcType="INTEGER" />
         <result column="identity" property="identity" jdbcType="INTEGER" />
     </resultMap>
+    <insert id="addBatchUser" parameterType="java.util.List">
+        INSERT INTO book_manager.users
+            (`address`, `identity`, `is_admin`, `nickname`, `password`, `size`, `tel`, `username`)
+        VALUES
+        <foreach collection="list" item="user" separator=",">
+            (#{user.address}, #{user.identity},#{user.isAdmin}, #{user.nickname}, #{user.password}, #{user.size}, #{user.tel}, #{user.username})
+        </foreach>
+    </insert>
 
     <!-- 模糊查询 -->
     <select id="findListByLike" resultMap="BaseResultMap" >

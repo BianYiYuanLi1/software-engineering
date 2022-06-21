@@ -120,4 +120,8 @@ public class UserService implements UserDetailsService{
     public Users findByUsername(String username) {
         return usersRepository.findByUsername(username);
     }
+
+    public void addBatchUser(List<Users> list){
+        usersMapper.addBatchUser(list);
+    }
 }

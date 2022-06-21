@@ -56,7 +56,7 @@
 								<a href="javascript:page('welcome');"><i class="icon-home2"></i>首页</a>
 							</li>
 
-							<li class="menu-item">
+							<li id="book_manage" class="menu-item">
                                 <a href="javascript:;">图书管理<i class="icon-keyboard_arrow_left"></i></a>
                                 <ul>
 									<li><a id="book-list" href="javascript:page('book/book-list');">图书列表</a></li>
@@ -73,7 +73,7 @@
 								</ul>
                             </li>
 
-                            <li class="menu-item">
+                            <li id="reader_manage" class="menu-item">
 								<a href="javascript:;">读者管理<i class="icon-keyboard_arrow_left"></i></a>
 								<ul>
 									<li><a id="reader-list" href="javascript:page('reader/reader-list');">读者列表</a></li>
@@ -146,6 +146,8 @@
 					$("#reader-add").hide();
 					$("#user-manage").hide();
 					$("#admin-add").hide();
+					$("#book_manage").hide();
+					$("#reader_manage").hide();
 				}
 			}
 

@@ -20,6 +20,7 @@ public enum CodeEnum {
     NAME_OR_PASS_ERROR(445,"用户名或密码错误!"),
     /** 找不到用户 */
     USER_NOT_FOUND(446,"找不到用户!"),
+    VERIFICATE_FAIL(447,"验证码错误"),
     /** 服务器发生异常 */
     FAIL(500,"服务器发生异常!");
 

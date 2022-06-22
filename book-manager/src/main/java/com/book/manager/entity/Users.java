@@ -63,3 +63,7 @@ public class Users {
     // json： {"id":id,"avatar":avatar,"nickname":nickname,"username":username,"password":password,"birthday":birthday,"isAdmin":isAdmin,"tel":tel
     // ,"email":email,"address":address,"size":size,"identity":identity}
 }
+
+
+
+

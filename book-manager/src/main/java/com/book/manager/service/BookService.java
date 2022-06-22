@@ -3,6 +3,7 @@ package com.book.manager.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import com.book.manager.dao.BookMapper;
+import com.book.manager.dao.HotSearchMapper;
 import com.book.manager.entity.Book;
 import com.book.manager.repos.BookRepository;
 import com.book.manager.util.vo.BookOut;
@@ -13,10 +14,12 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @Description 图书业务类
@@ -30,6 +33,12 @@ public class BookService {
     @Autowired
     private BookMapper bookMapper;
 
+    @Autowired
+    private HotSearchService hotSearchService;
+
+    @Autowired
+    private HotSearchMapper hotSearchMapper;
+
 
     /**
      * 添加用户
@@ -37,7 +46,10 @@ public class BookService {
      * @return 返回添加的图书
      */
     public Book addBook(Book book) {
-        return bookRepository.saveAndFlush(book);
+        Book book1 = bookRepository.saveAndFlush(book);
+        System.out.println("新插入"+book1.getId());
+        hotSearchMapper.insert(book1.getId());
+        return book1;
     }
 
     /**
@@ -108,7 +120,14 @@ public class BookService {
     public PageOut getBookList(PageIn pageIn) {
 
         PageHelper.startPage(pageIn.getCurrPage(),pageIn.getPageSize());
-        List<Book> list = bookMapper.findBookListByLike(pageIn.getKeyword());
+        String keyword = pageIn.getKeyword();
+        List<Book> list = bookMapper.findBookListByLike(keyword);
+        //如果关键字不为空就更新热搜榜
+        System.out.println("keyword="+keyword);
+        if(!StringUtils.isEmpty(keyword)){
+            List<Integer> book_ids = list.stream().map(book -> book.getId()).collect(Collectors.toList());
+            hotSearchService.updateHotScore(book_ids);
+        }
         PageInfo<Book> pageInfo = new PageInfo<>(list);
 
         List<BookOut> bookOuts = new ArrayList<>();
@@ -129,4 +148,25 @@ public class BookService {
     }
 
 
+    public PageOut getHotBookList(PageIn pageIn) {
+        PageHelper.startPage(pageIn.getCurrPage(),pageIn.getPageSize());
+        List<Book> list = hotSearchService.findHotBookList();
+        PageInfo<Book> pageInfo = new PageInfo<>(list);
+
+        List<BookOut> bookOuts = new ArrayList<>();
+        for (Book book : pageInfo.getList()) {
+            BookOut out = new BookOut();
+            BeanUtil.copyProperties(book,out);
+            out.setPublishTime(DateUtil.format(book.getPublishTime(),"yyyy-MM-dd"));
+            bookOuts.add(out);
+        }
+
+        // 自定义分页返回对象
+        PageOut pageOut = new PageOut();
+        pageOut.setList(bookOuts);
+        pageOut.setTotal((int)pageInfo.getTotal());
+        pageOut.setCurrPage(pageInfo.getPageNum());
+        pageOut.setPageSize(pageInfo.getPageSize());
+        return pageOut;
+    }
 }

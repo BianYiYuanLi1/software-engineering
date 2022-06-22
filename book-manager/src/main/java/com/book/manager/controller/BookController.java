@@ -32,6 +32,15 @@ public class BookController {
         return R.success(CodeEnum.SUCCESS,bookService.getBookList(pageIn));
     }
 
+    @PostMapping("/hotlist")
+    public R getHotBookList(@RequestBody PageIn pageIn) {
+        if (pageIn == null) {
+            return R.fail(CodeEnum.PARAM_ERROR);
+        }
+
+        return R.success(CodeEnum.SUCCESS,bookService.getHotBookList(pageIn));
+    }
+
     @ApiOperation("添加图书")
     @PostMapping("/add")
     public R addBook(@RequestBody Book book) {

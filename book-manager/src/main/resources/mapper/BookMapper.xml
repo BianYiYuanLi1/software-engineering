@@ -25,6 +25,13 @@
         </where>
         order by id desc
     </select>
+    <select id="getHotBookList" resultMap="BaseResultMap">
+        select * from book
+        where id in
+        <foreach open="(" close=")" separator="," item="id" collection="list">
+            #{id}
+        </foreach>
+    </select>
 
 
     <update id="updateBook" parameterType="map">

@@ -27,4 +27,6 @@ public interface BookMapper {
      * @return
      */
     int updateBook(Map<String, Object> map);
+
+    List<Book> getHotBookList(List<Integer> list);
 }

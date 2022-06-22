@@ -3,11 +3,13 @@ package com.book.manager.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.excel.util.FileUtils;
 import com.book.manager.entity.Users;
 import com.book.manager.service.UserService;
 import com.book.manager.util.R;
 import com.book.manager.util.consts.Constants;
 import com.book.manager.util.consts.ConvertUtil;
+import com.book.manager.util.excel.UsersExcel;
 import com.book.manager.util.http.CodeEnum;
 import com.book.manager.util.vo.PageOut;
 import com.book.manager.util.ro.PageIn;
@@ -19,7 +21,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -151,9 +156,24 @@ public class UsersController {
     }
 
     @PostMapping("/addBatch")
-    public R addBatch(){
-        List<Users> list = new ArrayList<>();
-        userService.addBatchUser(list);
-        return new R();
+    public R addBatch(MultipartFile file) throws IOException {
+        if (file == null || file.getSize()==0) {
+            return R.fail(CodeEnum.PARAM_ERROR);
+        }
+        File excel = new File("D:/newexcel.xlsx");
+        FileUtils.writeToFile(excel,file.getInputStream());
+        List<Users> list = UsersExcel.getUsersFromExcel(excel);
+        int i = 0;
+        try {
+           i = userService.addBatchUser(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            excel.delete();
+        }
+        if(i>0){
+            return R.success(CodeEnum.SUCCESS);
+        }
+        return R.fail(CodeEnum.FAIL);
     }
 }

@@ -28,5 +28,5 @@ public interface UsersMapper {
      */
     int updateUsers(Map<String,Object> map);
 
-    void addBatchUser(List<Users> list);
+    int addBatchUser(List<Users> list);
 }

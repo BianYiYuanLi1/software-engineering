@@ -1,7 +1,10 @@
 package com.book.manager.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.book.manager.dao.BookMapper;
+import com.book.manager.dao.UserBookRelationMapper;
 import com.book.manager.dao.UsersMapper;
+import com.book.manager.entity.UserBookRelation;
 import com.book.manager.entity.Users;
 import com.book.manager.repos.UsersRepository;
 import com.book.manager.util.ro.PageIn;
@@ -39,6 +42,12 @@ public class UserService implements UserDetailsService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    BookMapper bookMapper;
+
+    @Autowired
+    UserBookRelationMapper userBookRelationMapper;
+
 
     /**
      * 添加用户
@@ -46,7 +55,17 @@ public class UserService implements UserDetailsService{
      * @return 返回添加的用户
      */
     public Users addUser(Users users) {
-        return usersRepository.saveAndFlush(users);
+        Users byUsername = findByUsername(users.getUsername());
+        if(byUsername != null)return null;
+        Users users1 = usersRepository.saveAndFlush(users);
+        //添加用户和图书的关系
+        List<Integer> list = bookMapper.selectAllBookId();
+        List<UserBookRelation> userBookRelations = new ArrayList<>();
+        for (Integer bookId : list) {
+            userBookRelations.add(new UserBookRelation(users1.getId(),bookId,0));
+        }
+        userBookRelationMapper.batchInsert(userBookRelations);
+        return users1;
     }
 
     /**
@@ -78,6 +97,7 @@ public class UserService implements UserDetailsService{
      * @return true or false
      */
     public void deleteUser(Integer id) {
+        userBookRelationMapper.deleteByUserId(id);
         usersRepository.deleteById(id);
     }
 

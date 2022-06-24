@@ -25,12 +25,15 @@
         </where>
         order by id desc
     </select>
-    <select id="getHotBookList" resultMap="BaseResultMap">
+    <select id="getBookList" resultMap="BaseResultMap">
         select * from book
         where id in
         <foreach open="(" close=")" separator="," item="id" collection="list">
             #{id}
         </foreach>
+    </select>
+    <select id="selectAllBookId" resultType="java.lang.Integer">
+        select id from book
     </select>
 
 

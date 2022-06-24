@@ -28,5 +28,7 @@ public interface BookMapper {
      */
     int updateBook(Map<String, Object> map);
 
-    List<Book> getHotBookList(List<Integer> list);
+    List<Book> getBookList(List<Integer> list);
+
+    List<Integer> selectAllBookId();
 }

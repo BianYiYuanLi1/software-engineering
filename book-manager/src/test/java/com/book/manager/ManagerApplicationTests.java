@@ -1,9 +1,11 @@
 package com.book.manager;
 
 import com.alibaba.excel.EasyExcel;
-import com.book.manager.entity.Book;
-import com.book.manager.entity.Student;
-import com.book.manager.entity.Users;
+import com.book.manager.dao.BookMapper;
+import com.book.manager.dao.HotSearchMapper;
+import com.book.manager.dao.UserBookRelationMapper;
+import com.book.manager.dao.UsersMapper;
+import com.book.manager.entity.*;
 import com.book.manager.service.BookService;
 import com.book.manager.service.UserService;
 import com.book.manager.util.excel.ReadExcelUtil;
@@ -14,9 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @SpringBootTest
@@ -27,7 +27,19 @@ public class ManagerApplicationTests {
 	private BookService bookService;
 
 	@Autowired
+	private BookMapper bookMapper;
+
+	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private UsersMapper usersMapper;
+
+	@Autowired
+	UserBookRelationMapper userBookRelationMapper;
+
+	@Autowired
+	HotSearchMapper hotSearchMapper;
 
 
 	@Test
@@ -94,6 +106,42 @@ public class ManagerApplicationTests {
 			users.add(user);
 		}
 		userService.addBatchUser(users);
+	}
+
+	@Test
+	public void test3(){
+		List<Integer> userIDs = usersMapper.selectAllUserId();
+		System.out.println("所有用户："+userIDs);
+		List<Integer> bookIDs = bookMapper.selectAllBookId();
+		System.out.println("所有图书："+bookIDs);
+
+		List<UserBookRelation> list = new ArrayList<>();
+		for (Integer userID : userIDs) {
+			for (Integer bookID : bookIDs) {
+				Integer score = (int)(Math.random()*10);
+				UserBookRelation userBookRelation = new UserBookRelation(userID, bookID, score);
+				list.add(userBookRelation);
+			}
+		}
+		System.out.println("插入前- - 》 "+list);
+		userBookRelationMapper.batchInsert(list);
+		System.out.println("插入后- - 》 "+list);
+	}
+
+	@Test
+	public void test4(){
+		List<Integer> list = new ArrayList();
+		list.add(1);
+		list.add(2);
+		list.add(3);
+		userBookRelationMapper.updateRecommendScore(1,list,1);
+	}
+
+	@Test
+	public void test5(){
+		List<HotSearch> list = userBookRelationMapper.selectScoreGroupByBookId();
+		System.out.println("list --> "+list);
+		hotSearchMapper.update(list);
 	}
 
 }

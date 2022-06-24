@@ -4,7 +4,9 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import com.book.manager.dao.BookMapper;
 import com.book.manager.dao.HotSearchMapper;
+import com.book.manager.dao.UserBookRelationMapper;
 import com.book.manager.entity.Book;
+import com.book.manager.entity.UserBookRelation;
 import com.book.manager.repos.BookRepository;
 import com.book.manager.util.vo.BookOut;
 import com.book.manager.util.vo.PageOut;
@@ -38,6 +40,9 @@ public class BookService {
 
     @Autowired
     private HotSearchMapper hotSearchMapper;
+
+    @Autowired
+    UserBookRelationMapper userBookRelationMapper;
 
 
     /**
@@ -122,11 +127,12 @@ public class BookService {
         PageHelper.startPage(pageIn.getCurrPage(),pageIn.getPageSize());
         String keyword = pageIn.getKeyword();
         List<Book> list = bookMapper.findBookListByLike(keyword);
-        //如果关键字不为空就更新热搜榜
+        //如果关键字不为空就更新热搜榜和推荐榜
         System.out.println("keyword="+keyword);
         if(!StringUtils.isEmpty(keyword)){
             List<Integer> book_ids = list.stream().map(book -> book.getId()).collect(Collectors.toList());
             hotSearchService.updateHotScore(book_ids);
+            hotSearchService.updateRecommendScore(book_ids,1);
         }
         PageInfo<Book> pageInfo = new PageInfo<>(list);
 
@@ -151,6 +157,29 @@ public class BookService {
     public PageOut getHotBookList(PageIn pageIn) {
         PageHelper.startPage(pageIn.getCurrPage(),pageIn.getPageSize());
         List<Book> list = hotSearchService.findHotBookList();
+        PageInfo<Book> pageInfo = new PageInfo<>(list);
+
+        List<BookOut> bookOuts = new ArrayList<>();
+        for (Book book : pageInfo.getList()) {
+            BookOut out = new BookOut();
+            BeanUtil.copyProperties(book,out);
+            out.setPublishTime(DateUtil.format(book.getPublishTime(),"yyyy-MM-dd"));
+            bookOuts.add(out);
+        }
+
+        // 自定义分页返回对象
+        PageOut pageOut = new PageOut();
+        pageOut.setList(bookOuts);
+        pageOut.setTotal((int)pageInfo.getTotal());
+        pageOut.setCurrPage(pageInfo.getPageNum());
+        pageOut.setPageSize(pageInfo.getPageSize());
+        return pageOut;
+    }
+
+    public PageOut getRecommendBookList(PageIn pageIn) {
+        List<UserBookRelation> list1 = userBookRelationMapper.selectAll();
+        PageHelper.startPage(pageIn.getCurrPage(),pageIn.getPageSize());
+        List<Book> list = hotSearchService.findRecommendBookList(list1);
         PageInfo<Book> pageInfo = new PageInfo<>(list);
 
         List<BookOut> bookOuts = new ArrayList<>();

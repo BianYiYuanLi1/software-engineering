@@ -14,6 +14,20 @@
             #{item}
         </foreach>
     </update>
+
+    <update id="update" parameterType="java.util.List">
+        update hotsearch
+        <trim prefix="set hotscore = case" suffix="end">
+            <foreach collection="list" item="i">
+                when book_id = #{i.book_id} then #{i.hotscore}
+            </foreach>
+        </trim>
+        where book_id in
+        <foreach item="item" collection="list" open="(" close=")" separator=",">
+            #{item.book_id}
+        </foreach>
+    </update>
+
     <select id="selectFive" resultType="java.lang.Integer">
         select book_id from hotsearch
         order by hotscore desc

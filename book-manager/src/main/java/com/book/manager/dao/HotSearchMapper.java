@@ -1,5 +1,6 @@
 package com.book.manager.dao;
 
+import com.book.manager.entity.HotSearch;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -14,4 +15,7 @@ public interface HotSearchMapper {
     void insert(Integer id);
 
     List<Integer> selectFive();
+
+    void update(List<HotSearch> list);
+
 }

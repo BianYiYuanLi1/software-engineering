@@ -33,6 +33,9 @@
             </if>
         </where>
     </select>
+    <select id="selectAllUserId" resultType="java.lang.Integer">
+        select id from users
+    </select>
 
     <update id="updateUsers" parameterType="map">
         update users

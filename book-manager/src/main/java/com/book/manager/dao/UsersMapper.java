@@ -29,4 +29,6 @@ public interface UsersMapper {
     int updateUsers(Map<String,Object> map);
 
     int addBatchUser(List<Users> list);
+
+    List<Integer> selectAllUserId();
 }

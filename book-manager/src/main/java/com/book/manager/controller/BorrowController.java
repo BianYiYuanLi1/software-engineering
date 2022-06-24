@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.book.manager.entity.Borrow;
 import com.book.manager.service.BookService;
 import com.book.manager.service.BorrowService;
+import com.book.manager.service.HotSearchService;
 import com.book.manager.util.R;
 import com.book.manager.util.consts.Constants;
 import com.book.manager.util.http.CodeEnum;
@@ -35,6 +36,9 @@ public class BorrowController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private HotSearchService hotSearchService;
+
     @ApiOperation("借阅列表")
     @GetMapping("/list")
     public R getBorrowList(Integer userId) {
@@ -44,6 +48,10 @@ public class BorrowController {
     @ApiOperation("借阅图书")
     @PostMapping("/add")
     public R addBorrow(@RequestBody Borrow borrow) {
+        Integer bookId = borrow.getBookId();
+        List<Integer> list = new ArrayList<>();
+        list.add(bookId);
+        hotSearchService.updateRecommendScore(list,3);
         Integer result = borrowService.addBorrow(borrow);
         if (result == Constants.BOOK_BORROWED) {
             return R.success(CodeEnum.BOOK_BORROWED);

@@ -33,8 +33,11 @@
 			
 			<!--右侧-->
 			<ul class="admin-navbar-nav fr">
+				<li id="a_login">
+					<a href="/login">去登陆</a>
+				</li>
 				<li>
-					<a href="javascript:;">欢迎您，<span id="nickname">管理员</span></a>
+					<a href="javascript:;">欢迎您，<span id="nickname">游客</span></a>
 					<ul class="dropdown-menu" style="right: 10px;">
 						<li><a href="/logout">退出当前账号</a></li>
 					</ul>
@@ -140,6 +143,7 @@
     $(document).ready(function(){
         // 页面一加载, 读取登录用户信息, 进行权限限制
         $.get("/user/currUser", function(data){
+        	console.log("返回的数据",data);
             var code = data.code;
             var user = data.data;
             if (code == 200) {
@@ -157,6 +161,16 @@
 					$("#book_manage").hide();
 					$("#reader_manage").hide();
 				}
+				$("#a_login").hide();
+			}
+            //游客
+			else if(code = 446){
+				$("#add-book").hide();
+				$("#reader-add").hide();
+				$("#user-manage").hide();
+				$("#admin-add").hide();
+				$("#book_manage").hide();
+				$("#reader_manage").hide();
 			}
 
             return false;

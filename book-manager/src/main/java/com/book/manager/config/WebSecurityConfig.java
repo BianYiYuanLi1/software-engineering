@@ -29,21 +29,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //将验证码过滤器添加到用户名密码过滤器前面
-//            http.addFilterBefore(verificationCodeFilter, UsernamePasswordAuthenticationFilter.class);
         //授权
         http.formLogin()
                 //自定义登陆页面
                 .loginPage("/login")
                 //如果URL为loginPage,则用SpringSecurity中自带的过滤器去处理该请求
-                .successForwardUrl("/index")
+//                .successForwardUrl("/index")
+                .defaultSuccessUrl("/index")
                 .loginProcessingUrl("/user/login")
                 .and()
                 //请求授权
                 .authorizeRequests()
                 //在访问我们的URL时，我们是不需要省份认证，可以立即访问
                 .antMatchers("/javaex/**","/","/favicon.ico","/login","/user/login","/regist.html",
-                        "/user/addReader","/mail/verificationCode","/mail/verficate").permitAll()
+                        "/user/addReader","/mail/verificationCode","/mail/verficate","/index","/welcome","/user/currUser",
+                        "/recommend/book-hot","/book/hotlist","/borrow/book-search","/book/list").permitAll()
                 //所有请求都被拦截，都需认证
                 .anyRequest().authenticated()
                 .and()

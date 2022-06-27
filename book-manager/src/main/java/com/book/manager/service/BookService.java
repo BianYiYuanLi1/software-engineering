@@ -131,8 +131,10 @@ public class BookService {
         System.out.println("keyword="+keyword);
         if(!StringUtils.isEmpty(keyword)){
             List<Integer> book_ids = list.stream().map(book -> book.getId()).collect(Collectors.toList());
-            hotSearchService.updateHotScore(book_ids);
-            hotSearchService.updateRecommendScore(book_ids,1);
+            if(book_ids.size()>0) {
+                hotSearchService.updateHotScore(book_ids);
+                hotSearchService.updateRecommendScore(book_ids, 1);
+            }
         }
         PageInfo<Book> pageInfo = new PageInfo<>(list);
 

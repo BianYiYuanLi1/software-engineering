@@ -18,7 +18,7 @@ public class RouteController {
      * 跳转登录
      */
     @ApiOperation("跳转登录页")
-    @GetMapping({"/login","/","logout"})
+    @GetMapping({"/login","logout"})
     public String toLogin() {
         return "login";
     }
@@ -27,7 +27,7 @@ public class RouteController {
      * 跳转首页
      */
     @ApiOperation("跳转首页")
-    @RequestMapping({"/index"})
+    @RequestMapping({"/index","/"})
     public String toIndex() {
         return "index";
     }

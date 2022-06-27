@@ -74,6 +74,7 @@
 					<thead>
 					<tr align="center">
 						<th>序号</th>
+						<th>借阅者</th>
 						<th>书名</th>
 						<th>作者</th>
 						<th>ISBN</th>
@@ -123,10 +124,10 @@
                 $.each(backArray,function(index,value){
                     console.log(value);
                     var num = index+1;
-                    text+= "<tr align='center'><td>"+num+"</td><td>"+value.name+"</td><td>"+value.author+"</td><td>"+value.isbn+"</td>" +
+                    text+= "<tr align='center'><td>"+num+"</td><td>"+value.username+"</td><td>"+value.name+"</td><td>"+value.author+"</td><td>"+value.isbn+"</td>" +
                         "<td>"+value.pages+"</td><td>"+value.price+"</td><td>"+value.publish+"</td><td>"+value.type+"</td>" +
                         "<td>"+value.borrowTime+"</td><td>"+value.endTime+"</td><td>"+value.late+"</td><td>"+
-                        "<button class='button blue empty' onclick='retBook("+user.id+","+value.id+")'>归还图书</td></tr>";
+                        "<button class='button blue empty' onclick='retBook("+value.userId+","+value.id+")'>归还图书</td></tr>";
                 });
 
                 $("#tbody").html(text);

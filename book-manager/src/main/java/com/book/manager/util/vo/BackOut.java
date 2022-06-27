@@ -9,6 +9,12 @@ import lombok.Data;
 @Data
 public class BackOut extends BookOut{
 
+    @ApiModelProperty("借阅者")
+    private String username;
+
+    @ApiModelProperty("借阅id")
+    private Integer userId;
+
     @ApiModelProperty("借阅时间")
     private String borrowTime;
 

@@ -103,6 +103,11 @@ public class BorrowService {
     }
 
 
+    public List<Borrow> findAll() {
+        return borrowRepository.findAll();
+    }
+
+
     /**
      * 详情
      */
@@ -173,4 +178,5 @@ public class BorrowService {
 //        borrowMapper.updateBor(BeanUtil.beanToMap(borrow))>0;
         this.deleteBorrow(borrow.getId());
     }
+
 }

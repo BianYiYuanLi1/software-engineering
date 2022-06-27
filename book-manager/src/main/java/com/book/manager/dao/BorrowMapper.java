@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,4 +24,7 @@ public interface BorrowMapper {
     Borrow findBorrowByUserIdAndBookId(@Param("userId") Integer userId, @Param("bookId") Integer bookId);
 
     int updateBor(Map<String,Object> map);
+
+    @Select("select * from borrow")
+    List<Borrow> findAll();
 }

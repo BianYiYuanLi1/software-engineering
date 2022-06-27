@@ -2,9 +2,11 @@ package com.book.manager.controller;
 
 import cn.hutool.core.date.DateUtil;
 import com.book.manager.entity.Borrow;
+import com.book.manager.entity.Users;
 import com.book.manager.service.BookService;
 import com.book.manager.service.BorrowService;
 import com.book.manager.service.HotSearchService;
+import com.book.manager.service.UserService;
 import com.book.manager.util.R;
 import com.book.manager.util.consts.Constants;
 import com.book.manager.util.http.CodeEnum;
@@ -38,6 +40,9 @@ public class BorrowController {
 
     @Autowired
     private HotSearchService hotSearchService;
+
+    @Autowired
+    private UserService userService;
 
     @ApiOperation("借阅列表")
     @GetMapping("/list")
@@ -89,8 +94,17 @@ public class BorrowController {
     public R borrowedList(Integer userId) {
         List<BackOut> outs = new ArrayList<>();
         if (userId!=null&&userId>0) {
+            Users userById = userService.findUserById(userId);
+            String username = userById.getUsername();
+            Integer isAdmin = userById.getIsAdmin();
+            List<Borrow> borrows;
             // 获取所有 已借阅 未归还书籍
-            List<Borrow> borrows = borrowService.findBorrowsByUserIdAndRet(userId, Constants.NO);
+            if (isAdmin==0){
+                //是管理员查询所有
+                borrows = borrowService.findAll();
+            }
+            else borrows = borrowService.findBorrowsByUserIdAndRet(userId, Constants.NO);
+            System.out.println(">>>>"+borrows);
             for (Borrow borrow : borrows) {
                 BackOut backOut = new BackOut();
                 BookOut out = bookService.findBookById(borrow.getBookId());
@@ -108,7 +122,11 @@ public class BorrowController {
                 }else {
                     backOut.setLate(Constants.NO_STR);
                 }
-
+                if (isAdmin==0) {
+                    username = userService.findUserById(borrow.getUserId()).getUsername();
+                }
+                backOut.setUsername(username);
+                backOut.setUserId(borrow.getUserId());
                 outs.add(backOut);
             }
         }

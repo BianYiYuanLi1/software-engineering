@@ -26,7 +26,7 @@ spring:
     host: smtp.qq.com
     port: 587
     username: 1584868178@qq.com
-    password: qqmlvvgabbjwgaff
+    password: xyermmhbstysbacd
     default-encoding: utf-8
 mybatis:
   mapper-locations: classpath:mapper/*.xml

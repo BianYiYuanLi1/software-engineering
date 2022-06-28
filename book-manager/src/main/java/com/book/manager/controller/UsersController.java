@@ -129,7 +129,7 @@ public class UsersController {
     @GetMapping("/currUser")
     public R getCurrUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal!=null) {
+        if (principal!=null && true) {
             Map<String,Object> map = BeanUtil.beanToMap(principal);
             String username = (String) map.get("username");
             if (StrUtil.isNotBlank(username)) {

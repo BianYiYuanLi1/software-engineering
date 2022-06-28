@@ -16,6 +16,7 @@ import java.util.stream.IntStream;
 @Component
 public class Recommend {
 
+    //每个用户的每本图书的评分
     Map<Integer,Map<Integer,Integer>> map = new HashMap<>();
     /**
      * 在给定user的情况下，计算其他用户和它的距离并排序
@@ -53,7 +54,6 @@ public class Recommend {
 
     /**
      * 计算2个打分序列间的pearson距离
-     * 选择公式四进行计算
      * @param rating1
      * @param rating2
      * @return
